@@ -13,6 +13,7 @@
 		7852D6541AFAE50800DE1808 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7852D6531AFAE50800DE1808 /* Images.xcassets */; };
 		7852D6571AFAE50800DE1808 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7852D6551AFAE50800DE1808 /* LaunchScreen.xib */; };
 		7852D6631AFAE50800DE1808 /* StructureViewerSwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7852D6621AFAE50800DE1808 /* StructureViewerSwiftTests.swift */; };
+		7852D66D1AFAE52600DE1808 /* Structure.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7852D66C1AFAE52600DE1808 /* Structure.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +37,7 @@
 		7852D65C1AFAE50800DE1808 /* StructureViewerSwiftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StructureViewerSwiftTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7852D6611AFAE50800DE1808 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7852D6621AFAE50800DE1808 /* StructureViewerSwiftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StructureViewerSwiftTests.swift; sourceTree = "<group>"; };
+		7852D66C1AFAE52600DE1808 /* Structure.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Structure.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -43,6 +45,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7852D66D1AFAE52600DE1808 /* Structure.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -60,6 +63,7 @@
 			isa = PBXGroup;
 			children = (
 				7852D6491AFAE50800DE1808 /* StructureViewerSwift */,
+				7852D66E1AFAE52A00DE1808 /* Frameworks */,
 				7852D65F1AFAE50800DE1808 /* StructureViewerSwiftTests */,
 				7852D6481AFAE50800DE1808 /* Products */,
 			);
@@ -110,6 +114,14 @@
 				7852D6611AFAE50800DE1808 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		7852D66E1AFAE52A00DE1808 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7852D66C1AFAE52600DE1808 /* Structure.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -342,6 +354,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = StructureViewerSwift/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -352,6 +368,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = StructureViewerSwift/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
