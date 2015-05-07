@@ -10,6 +10,7 @@ import UIKit
 
 class ViewController: UIViewController, STSensorControllerDelegate {
 
+    @IBOutlet weak var statusLabel: UILabel!
     @IBOutlet weak var depthView: UIImageView!
     
     var floatDepth = STFloatDepthFrame()
