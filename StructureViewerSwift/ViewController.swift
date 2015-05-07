@@ -14,18 +14,13 @@ class ViewController: UIViewController, STSensorControllerDelegate {
     @IBOutlet weak var depthView: UIImageView!
     
     var floatDepth = STFloatDepthFrame()
-    var toRGBA : STDepthToRgba!
+    var toRGBA : STDepthToRgba?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
         STSensorController.sharedController().delegate = self
-        
-        let toRGBAOptions : [NSObject : AnyObject] = [
-            kSTDepthToRgbaStrategyKey : NSNumber(integer: STDepthToRgbaStrategy.RedToBlueGradient.rawValue)
-        ]
-        toRGBA = STDepthToRgba(streamInfo: STSensorController.sharedController().getStreamInfo(.Depth640x480), options: toRGBAOptions, error: nil)
         
         if STSensorController.sharedController().isConnected() {
             tryStartStreaming()
@@ -56,6 +51,10 @@ class ViewController: UIViewController, STSensorControllerDelegate {
             ]
             var error : NSError? = nil
             if STSensorController.sharedController().startStreamingWithOptions(options, error: &error) {
+                let toRGBAOptions : [NSObject : AnyObject] = [
+                    kSTDepthToRgbaStrategyKey : NSNumber(integer: STDepthToRgbaStrategy.RedToBlueGradient.rawValue)
+                ]
+                toRGBA = STDepthToRgba(streamInfo: STSensorController.sharedController().getStreamInfo(.Depth640x480), options: toRGBAOptions, error: nil)
                 return true
             }
         }
@@ -89,9 +88,11 @@ class ViewController: UIViewController, STSensorControllerDelegate {
     
     func sensorDidOutputDepthFrame(depthFrame: STDepthFrame!) {
         floatDepth.updateFromDepthFrame(depthFrame)
-        var pixels = toRGBA.convertDepthFrameToRgba(floatDepth)
-        depthView.image = imageFromPixels(pixels, width: Int(toRGBA.width), height: Int(toRGBA.height))
-        statusLabel.text = "Showing Depth \(depthView.image?.size)"
+        if let renderer = toRGBA {
+            var pixels = renderer.convertDepthFrameToRgba(floatDepth)
+            statusLabel.text = "Showing Depth \(renderer.rgbaBuffer)"
+            depthView.image = imageFromPixels(pixels, width: Int(renderer.width), height: Int(renderer.height))
+        }
     }
     
     func imageFromPixels(pixels : UnsafeMutablePointer<UInt8>, width: Int, height: Int) -> UIImage? {
