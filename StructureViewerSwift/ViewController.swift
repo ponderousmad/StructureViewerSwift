@@ -71,6 +71,30 @@ class ViewController: UIViewController, STSensorControllerDelegate {
     func sensorDidOutputDepthFrame(depthFrame: STDepthFrame!) {
         floatDepth.updateFromDepthFrame(depthFrame)
         var pixels = toRGBA.convertDepthFrameToRgba(floatDepth)
+        depthView.image = imageFromPixels(pixels, width: Int(toRGBA.width), height: Int(toRGBA.height))
+    }
+    
+    func imageFromPixels(pixels : UnsafeMutablePointer<UInt8>, width: Int, height: Int) -> UIImage? {
+        let colorSpace = CGColorSpaceCreateDeviceRGB();
+        let info = CGBitmapInfo()
+        var bitmapInfo = CGBitmapInfo.ByteOrder32Big
+        bitmapInfo &= ~CGBitmapInfo.AlphaInfoMask
+        bitmapInfo |= CGBitmapInfo(CGImageAlphaInfo.NoneSkipLast.rawValue)
+        let provider = CGDataProviderCreateWithCFData(NSData(bytes:pixels, length: width*height))
+        
+        let image = CGImageCreate(
+            width,                       //width
+            height,                      //height
+            8,                           //bits per component
+            8 * 4,                       //bits per pixel
+            height * 4,                  //bytes per row
+            colorSpace,                  //Quartz color space
+            bitmapInfo,                  //Bitmap info (alpha channel?, order, etc)
+            provider,                    //Source of data for bitmap
+            nil,                         //decode
+            false,                       //pixel interpolation
+            kCGRenderingIntentDefault);  //rendering intent
+        return UIImage(CGImage: image)
     }
 }
 
