@@ -21,6 +21,14 @@ class ViewController: UIViewController, STSensorControllerDelegate {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    func tryInitializeSensor() -> Bool {
+        let result = STSensorController.sharedController().initializeSensorConnection()
+        if result == .AlreadyInitialized || result == .Success {
+            return true
+        }
+        return false
+    }
 
     func sensorDidConnect() {}
     func sensorDidDisconnect() {}
