@@ -21,6 +21,14 @@ class ViewController: UIViewController, STSensorControllerDelegate {
         // Do any additional setup after loading the view, typically from a nib.
         
         STSensorController.sharedController().delegate = self
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "appDidBecomeActive", name: UIApplicationDidBecomeActiveNotification, object: nil)
+    }
+    
+    func appDidBecomeActive() {
+        if STSensorController.sharedController().isConnected() {
+            tryStartStreaming()
+        }
     }
     
     override func viewWillAppear(animated: Bool) {
