@@ -21,8 +21,10 @@ class ViewController: UIViewController, STSensorControllerDelegate {
         // Do any additional setup after loading the view, typically from a nib.
         
         STSensorController.sharedController().delegate = self
-        
-        if STSensorController.sharedController().isConnected() {
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        if tryInitializeSensor() && STSensorController.sharedController().isConnected() {
             tryStartStreaming()
         } else {
             statusLabel.text = "Disconnected"
@@ -89,8 +91,9 @@ class ViewController: UIViewController, STSensorControllerDelegate {
     func sensorDidOutputDepthFrame(depthFrame: STDepthFrame!) {
         floatDepth.updateFromDepthFrame(depthFrame)
         if let renderer = toRGBA {
+            
+            statusLabel.text = "Showing Depth \(depthFrame.width)x\(depthFrame.height)"
             var pixels = renderer.convertDepthFrameToRgba(floatDepth)
-            statusLabel.text = "Showing Depth \(renderer.rgbaBuffer)"
             depthView.image = imageFromPixels(pixels, width: Int(renderer.width), height: Int(renderer.height))
         }
     }
