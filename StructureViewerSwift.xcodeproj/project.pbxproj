@@ -14,6 +14,10 @@
 		7852D6571AFAE50800DE1808 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7852D6551AFAE50800DE1808 /* LaunchScreen.xib */; };
 		7852D6631AFAE50800DE1808 /* StructureViewerSwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7852D6621AFAE50800DE1808 /* StructureViewerSwiftTests.swift */; };
 		7852D66D1AFAE52600DE1808 /* Structure.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7852D66C1AFAE52600DE1808 /* Structure.framework */; };
+		7852D6701AFAE62A00DE1808 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7852D66F1AFAE62A00DE1808 /* libz.dylib */; };
+		7852D6721AFAE63300DE1808 /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7852D6711AFAE63300DE1808 /* ExternalAccessory.framework */; };
+		7852D6741AFAE63F00DE1808 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7852D6731AFAE63F00DE1808 /* ImageIO.framework */; };
+		7852D6761AFAE64900DE1808 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7852D6751AFAE64900DE1808 /* Accelerate.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +42,10 @@
 		7852D6611AFAE50800DE1808 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7852D6621AFAE50800DE1808 /* StructureViewerSwiftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StructureViewerSwiftTests.swift; sourceTree = "<group>"; };
 		7852D66C1AFAE52600DE1808 /* Structure.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Structure.framework; sourceTree = "<group>"; };
+		7852D66F1AFAE62A00DE1808 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		7852D6711AFAE63300DE1808 /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
+		7852D6731AFAE63F00DE1808 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		7852D6751AFAE64900DE1808 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,6 +53,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7852D6701AFAE62A00DE1808 /* libz.dylib in Frameworks */,
+				7852D6721AFAE63300DE1808 /* ExternalAccessory.framework in Frameworks */,
+				7852D6741AFAE63F00DE1808 /* ImageIO.framework in Frameworks */,
+				7852D6761AFAE64900DE1808 /* Accelerate.framework in Frameworks */,
 				7852D66D1AFAE52600DE1808 /* Structure.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -119,6 +131,10 @@
 		7852D66E1AFAE52A00DE1808 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7852D6751AFAE64900DE1808 /* Accelerate.framework */,
+				7852D6731AFAE63F00DE1808 /* ImageIO.framework */,
+				7852D6711AFAE63300DE1808 /* ExternalAccessory.framework */,
+				7852D66F1AFAE62A00DE1808 /* libz.dylib */,
 				7852D66C1AFAE52600DE1808 /* Structure.framework */,
 			);
 			name = Frameworks;
