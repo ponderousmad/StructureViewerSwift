@@ -15,6 +15,10 @@ class ViewController: UIViewController, STSensorControllerDelegate {
         // Do any additional setup after loading the view, typically from a nib.
         
         STSensorController.sharedController().delegate = self
+        
+        if STSensorController.sharedController().isConnected() {
+            tryStartStreaming()
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -29,8 +33,26 @@ class ViewController: UIViewController, STSensorControllerDelegate {
         }
         return false
     }
+    
+    func tryStartStreaming() -> Bool {
+        if tryInitializeSensor() {
+            let options : [NSObject : AnyObject] = [
+                kSTStreamConfigKey: NSNumber(integer: STStreamConfig.Depth640x480.rawValue),
+                kSTFrameSyncConfigKey: NSNumber(integer: STFrameSyncConfig.Off.rawValue),
+                kSTHoleFilterConfigKey: true
+            ]
+            var error : NSError? = nil
+            if STSensorController.sharedController().startStreamingWithOptions(options as [NSObject : AnyObject], error: &error) {
+                return true
+            }
+        }
+        return false
+    }
 
-    func sensorDidConnect() {}
+    func sensorDidConnect() {
+        tryStartStreaming()
+    }
+    
     func sensorDidDisconnect() {}
     func sensorDidStopStreaming(reason: STSensorControllerDidStopStreamingReason) {}
     func sensorDidLeaveLowPowerMode() {}
