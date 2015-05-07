@@ -358,8 +358,14 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(PROJECT_DIR)/Structure.framework/Headers",
+				);
 				INFOPLIST_FILE = StructureViewerSwift/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = "-lc++";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -372,8 +378,14 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(PROJECT_DIR)/Structure.framework/Headers",
+				);
 				INFOPLIST_FILE = StructureViewerSwift/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = "-lc++";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -431,6 +443,7 @@
 				7852D6681AFAE50800DE1808 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		7852D6691AFAE50800DE1808 /* Build configuration list for PBXNativeTarget "StructureViewerSwiftTests" */ = {
 			isa = XCConfigurationList;
@@ -439,6 +452,7 @@
 				7852D66B1AFAE50800DE1808 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
