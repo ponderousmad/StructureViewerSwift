@@ -10,6 +10,8 @@ import UIKit
 
 class ViewController: UIViewController, STSensorControllerDelegate {
 
+    @IBOutlet weak var depthView: UIImageView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
