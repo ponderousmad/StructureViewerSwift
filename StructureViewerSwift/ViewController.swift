@@ -10,14 +10,32 @@ import UIKit
 
 class ViewController: UIViewController, STSensorControllerDelegate {
 
+    @IBOutlet weak var statusLabel: UILabel!
+    @IBOutlet weak var depthView: UIImageView!
+    
+    var floatDepth = STFloatDepthFrame()
+    var toRGBA : STDepthToRgba?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
         STSensorController.sharedController().delegate = self
         
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "appDidBecomeActive", name: UIApplicationDidBecomeActiveNotification, object: nil)
+    }
+    
+    func appDidBecomeActive() {
         if STSensorController.sharedController().isConnected() {
             tryStartStreaming()
+        }
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        if tryInitializeSensor() && STSensorController.sharedController().isConnected() {
+            tryStartStreaming()
+        } else {
+            statusLabel.text = "Disconnected"
         }
     }
 
@@ -42,7 +60,11 @@ class ViewController: UIViewController, STSensorControllerDelegate {
                 kSTHoleFilterConfigKey: true
             ]
             var error : NSError? = nil
-            if STSensorController.sharedController().startStreamingWithOptions(options as [NSObject : AnyObject], error: &error) {
+            if STSensorController.sharedController().startStreamingWithOptions(options, error: &error) {
+                let toRGBAOptions : [NSObject : AnyObject] = [
+                    kSTDepthToRgbaStrategyKey : NSNumber(integer: STDepthToRgbaStrategy.RedToBlueGradient.rawValue)
+                ]
+                toRGBA = STDepthToRgba(streamInfo: STSensorController.sharedController().getStreamInfo(.Depth640x480), options: toRGBAOptions, error: nil)
                 return true
             }
         }
@@ -50,12 +72,62 @@ class ViewController: UIViewController, STSensorControllerDelegate {
     }
 
     func sensorDidConnect() {
-        tryStartStreaming()
+        if tryStartStreaming() {
+            statusLabel.text = "Streaming"
+        } else {
+            statusLabel.text = "Connected"
+        }
     }
     
-    func sensorDidDisconnect() {}
-    func sensorDidStopStreaming(reason: STSensorControllerDidStopStreamingReason) {}
+    func sensorDidDisconnect()
+    {
+        statusLabel.text = "Disconnected"
+    }
+    
+    func sensorDidStopStreaming(reason: STSensorControllerDidStopStreamingReason)
+    {
+        statusLabel.text = "Stopped Streaming"
+    }
+    
     func sensorDidLeaveLowPowerMode() {}
-    func sensorBatteryNeedsCharging() {}
+    
+    func sensorBatteryNeedsCharging()
+    {
+        statusLabel.text = "Low Battery"
+    }
+    
+    func sensorDidOutputDepthFrame(depthFrame: STDepthFrame!) {
+        floatDepth.updateFromDepthFrame(depthFrame)
+        if let renderer = toRGBA {
+            statusLabel.text = "Showing Depth \(depthFrame.width)x\(depthFrame.height)"
+            var pixels = renderer.convertDepthFrameToRgba(floatDepth)
+            depthView.image = imageFromPixels(pixels, width: Int(renderer.width), height: Int(renderer.height))
+        }
+    }
+    
+    func imageFromPixels(pixels : UnsafeMutablePointer<UInt8>, width: Int, height: Int) -> UIImage? {
+        let colorSpace = CGColorSpaceCreateDeviceRGB();
+        let info = CGBitmapInfo()
+        var bitmapInfo = CGBitmapInfo.ByteOrder32Big
+        
+        bitmapInfo &= ~CGBitmapInfo.AlphaInfoMask
+        bitmapInfo |= CGBitmapInfo(CGImageAlphaInfo.NoneSkipLast.rawValue)
+        let provider = CGDataProviderCreateWithCFData(NSData(bytes:pixels, length: width*height*4))
+        
+        let image = CGImageCreate(
+            width,                       //width
+            height,                      //height
+            8,                           //bits per component
+            8 * 4,                       //bits per pixel
+            width * 4,                   //bytes per row
+            colorSpace,                  //Quartz color space
+            bitmapInfo,                  //Bitmap info (alpha channel?, order, etc)
+            provider,                    //Source of data for bitmap
+            nil,                         //decode
+            false,                       //pixel interpolation
+            kCGRenderingIntentDefault);  //rendering intent
+        
+        return UIImage(CGImage: image)
+    }
 }
 
