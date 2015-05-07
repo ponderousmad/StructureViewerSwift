@@ -18,7 +18,6 @@ class ViewController: UIViewController, STSensorControllerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
         
         STSensorController.sharedController().delegate = self
         
@@ -37,11 +36,6 @@ class ViewController: UIViewController, STSensorControllerDelegate {
         } else {
             statusLabel.text = "Disconnected"
         }
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     func tryInitializeSensor() -> Bool {
