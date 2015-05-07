@@ -29,6 +29,8 @@ class ViewController: UIViewController, STSensorControllerDelegate {
         
         if STSensorController.sharedController().isConnected() {
             tryStartStreaming()
+        } else {
+            statusLabel.text = "Disconnected"
         }
     }
 
@@ -61,18 +63,35 @@ class ViewController: UIViewController, STSensorControllerDelegate {
     }
 
     func sensorDidConnect() {
-        tryStartStreaming()
+        if tryStartStreaming() {
+            statusLabel.text = "Streaming"
+        } else {
+            statusLabel.text = "Connected"
+        }
     }
     
-    func sensorDidDisconnect() {}
-    func sensorDidStopStreaming(reason: STSensorControllerDidStopStreamingReason) {}
+    func sensorDidDisconnect()
+    {
+        statusLabel.text = "Disconnected"
+    }
+    
+    func sensorDidStopStreaming(reason: STSensorControllerDidStopStreamingReason)
+    {
+        statusLabel.text = "Stopped Streaming"
+    }
+    
     func sensorDidLeaveLowPowerMode() {}
-    func sensorBatteryNeedsCharging() {}
+    
+    func sensorBatteryNeedsCharging()
+    {
+        statusLabel.text = "Low Battery"
+    }
     
     func sensorDidOutputDepthFrame(depthFrame: STDepthFrame!) {
         floatDepth.updateFromDepthFrame(depthFrame)
         var pixels = toRGBA.convertDepthFrameToRgba(floatDepth)
         depthView.image = imageFromPixels(pixels, width: Int(toRGBA.width), height: Int(toRGBA.height))
+        statusLabel.text = "Showing Depth \(depthView.image?.size)"
     }
     
     func imageFromPixels(pixels : UnsafeMutablePointer<UInt8>, width: Int, height: Int) -> UIImage? {
