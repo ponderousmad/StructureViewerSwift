@@ -102,22 +102,25 @@ class ViewController: UIViewController, STSensorControllerDelegate {
         let colorSpace = CGColorSpaceCreateDeviceRGB();
         let info = CGBitmapInfo()
         var bitmapInfo = CGBitmapInfo.ByteOrder32Big
+        
         bitmapInfo &= ~CGBitmapInfo.AlphaInfoMask
         bitmapInfo |= CGBitmapInfo(CGImageAlphaInfo.NoneSkipLast.rawValue)
-        let provider = CGDataProviderCreateWithCFData(NSData(bytes:pixels, length: width*height))
+        let provider = CGDataProviderCreateWithCFData(NSData(bytes:pixels, length: width*height*4))
         
         let image = CGImageCreate(
             width,                       //width
             height,                      //height
             8,                           //bits per component
             8 * 4,                       //bits per pixel
-            height * 4,                  //bytes per row
+            width * 4,                   //bytes per row
             colorSpace,                  //Quartz color space
             bitmapInfo,                  //Bitmap info (alpha channel?, order, etc)
             provider,                    //Source of data for bitmap
             nil,                         //decode
             false,                       //pixel interpolation
             kCGRenderingIntentDefault);  //rendering intent
+        
+        
         return UIImage(CGImage: image)
     }
 }
