@@ -91,7 +91,6 @@ class ViewController: UIViewController, STSensorControllerDelegate {
     func sensorDidOutputDepthFrame(depthFrame: STDepthFrame!) {
         floatDepth.updateFromDepthFrame(depthFrame)
         if let renderer = toRGBA {
-            
             statusLabel.text = "Showing Depth \(depthFrame.width)x\(depthFrame.height)"
             var pixels = renderer.convertDepthFrameToRgba(floatDepth)
             depthView.image = imageFromPixels(pixels, width: Int(renderer.width), height: Int(renderer.height))
@@ -119,7 +118,6 @@ class ViewController: UIViewController, STSensorControllerDelegate {
             nil,                         //decode
             false,                       //pixel interpolation
             kCGRenderingIntentDefault);  //rendering intent
-        
         
         return UIImage(CGImage: image)
     }
