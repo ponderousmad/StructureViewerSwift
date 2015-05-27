@@ -13,12 +13,10 @@ class ViewController: UIViewController, STSensorControllerDelegate {
     @IBOutlet weak var statusLabel: UILabel!
     @IBOutlet weak var depthView: UIImageView!
     
-    var floatDepth = STFloatDepthFrame()
     var toRGBA : STDepthToRgba?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
         
         STSensorController.sharedController().delegate = self
         
@@ -37,11 +35,6 @@ class ViewController: UIViewController, STSensorControllerDelegate {
         } else {
             statusLabel.text = "Disconnected"
         }
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     func tryInitializeSensor() -> Bool {
@@ -64,7 +57,7 @@ class ViewController: UIViewController, STSensorControllerDelegate {
                 let toRGBAOptions : [NSObject : AnyObject] = [
                     kSTDepthToRgbaStrategyKey : NSNumber(integer: STDepthToRgbaStrategy.RedToBlueGradient.rawValue)
                 ]
-                toRGBA = STDepthToRgba(streamInfo: STSensorController.sharedController().getStreamInfo(.Depth640x480), options: toRGBAOptions, error: nil)
+                toRGBA = STDepthToRgba(options: toRGBAOptions, error: nil)
                 return true
             }
         }
@@ -97,10 +90,9 @@ class ViewController: UIViewController, STSensorControllerDelegate {
     }
     
     func sensorDidOutputDepthFrame(depthFrame: STDepthFrame!) {
-        floatDepth.updateFromDepthFrame(depthFrame)
         if let renderer = toRGBA {
             statusLabel.text = "Showing Depth \(depthFrame.width)x\(depthFrame.height)"
-            var pixels = renderer.convertDepthFrameToRgba(floatDepth)
+            var pixels = renderer.convertDepthFrameToRgba(depthFrame)
             depthView.image = imageFromPixels(pixels, width: Int(renderer.width), height: Int(renderer.height))
         }
     }
