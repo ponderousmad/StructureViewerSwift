@@ -42,8 +42,11 @@ class ViewController: UIViewController, STSensorControllerDelegate {
                 kSTHoleFilterConfigKey: true
             ]
             var error : NSError? = nil
-            if STSensorController.sharedController().startStreamingWithOptions(options as [NSObject : AnyObject], error: &error) {
+            do {
+                try STSensorController.sharedController().startStreamingWithOptions(options as [NSObject : AnyObject])
                 return true
+            } catch let error1 as NSError {
+                error = error1
             }
         }
         return false

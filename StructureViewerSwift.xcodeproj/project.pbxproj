@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7836F6981B15EFE5006CFEC3 /* Structure.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7836F6971B15EFE5006CFEC3 /* Structure.framework */; };
 		7852D64D1AFAE50800DE1808 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7852D64C1AFAE50800DE1808 /* AppDelegate.swift */; };
 		7852D64F1AFAE50800DE1808 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7852D64E1AFAE50800DE1808 /* ViewController.swift */; };
 		7852D6521AFAE50800DE1808 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7852D6501AFAE50800DE1808 /* Main.storyboard */; };
@@ -30,6 +31,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7836F6971B15EFE5006CFEC3 /* Structure.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Structure.framework; sourceTree = "<group>"; };
 		7852D6471AFAE50800DE1808 /* StructureViewerSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StructureViewerSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7852D64B1AFAE50800DE1808 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7852D64C1AFAE50800DE1808 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -52,6 +54,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7836F6981B15EFE5006CFEC3 /* Structure.framework in Frameworks */,
 				7852D6701AFAE62A00DE1808 /* libz.dylib in Frameworks */,
 				7852D6721AFAE63300DE1808 /* ExternalAccessory.framework in Frameworks */,
 				7852D6741AFAE63F00DE1808 /* ImageIO.framework in Frameworks */,
@@ -130,6 +133,7 @@
 		7852D66E1AFAE52A00DE1808 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7836F6971B15EFE5006CFEC3 /* Structure.framework */,
 				7852D6751AFAE64900DE1808 /* Accelerate.framework */,
 				7852D6731AFAE63F00DE1808 /* ImageIO.framework */,
 				7852D6711AFAE63300DE1808 /* ExternalAccessory.framework */,
@@ -182,7 +186,9 @@
 		7852D63F1AFAE50800DE1808 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0630;
+				LastSwiftMigration = 0720;
+				LastSwiftUpdateCheck = 0720;
+				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = "Adrian Smith";
 				TargetAttributes = {
 					7852D6461AFAE50800DE1808 = {
@@ -302,6 +308,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -381,6 +388,7 @@
 				INFOPLIST_FILE = StructureViewerSwift/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-lc++";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ponderousmad.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "StructureViewerSwift/StructureViewerSwift-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -404,6 +412,7 @@
 				INFOPLIST_FILE = StructureViewerSwift/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-lc++";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ponderousmad.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "StructureViewerSwift/StructureViewerSwift-Bridging-Header.h";
 			};
@@ -423,6 +432,7 @@
 				);
 				INFOPLIST_FILE = StructureViewerSwiftTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ponderousmad.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/StructureViewerSwift.app/StructureViewerSwift";
 			};
@@ -438,6 +448,7 @@
 				);
 				INFOPLIST_FILE = StructureViewerSwiftTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ponderousmad.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/StructureViewerSwift.app/StructureViewerSwift";
 			};
