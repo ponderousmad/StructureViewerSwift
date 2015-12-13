@@ -41,12 +41,11 @@ class ViewController: UIViewController, STSensorControllerDelegate {
                 kSTFrameSyncConfigKey: NSNumber(integer: STFrameSyncConfig.Off.rawValue),
                 kSTHoleFilterConfigKey: true
             ]
-            var error : NSError? = nil
             do {
                 try STSensorController.sharedController().startStreamingWithOptions(options as [NSObject : AnyObject])
                 return true
-            } catch let error1 as NSError {
-                error = error1
+            } catch let error as NSError {
+                print(error)
             }
         }
         return false
