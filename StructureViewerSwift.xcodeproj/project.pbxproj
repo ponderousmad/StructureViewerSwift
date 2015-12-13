@@ -17,6 +17,7 @@
 		7852D6741AFAE63F00DE1808 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7852D6731AFAE63F00DE1808 /* ImageIO.framework */; };
 		7852D6761AFAE64900DE1808 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7852D6751AFAE64900DE1808 /* Accelerate.framework */; };
 		78AF4C4A1C1E0C9E00FE2893 /* Structure.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78AF4C491C1E0C9D00FE2893 /* Structure.framework */; };
+		78AF4C4C1C1E103C00FE2893 /* libz.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 78AF4C4B1C1E103C00FE2893 /* libz.1.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +46,7 @@
 		7852D6751AFAE64900DE1808 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		7852D6771AFAE76B00DE1808 /* StructureViewerSwift-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "StructureViewerSwift-Bridging-Header.h"; sourceTree = "<group>"; };
 		78AF4C491C1E0C9D00FE2893 /* Structure.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Structure.framework; sourceTree = "<group>"; };
+		78AF4C4B1C1E103C00FE2893 /* libz.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.dylib; path = /usr/lib/libz.1.dylib; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,6 +54,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				78AF4C4C1C1E103C00FE2893 /* libz.1.dylib in Frameworks */,
 				78AF4C4A1C1E0C9E00FE2893 /* Structure.framework in Frameworks */,
 				7852D6721AFAE63300DE1808 /* ExternalAccessory.framework in Frameworks */,
 				7852D6741AFAE63F00DE1808 /* ImageIO.framework in Frameworks */,
@@ -74,6 +77,7 @@
 			children = (
 				7852D6491AFAE50800DE1808 /* StructureViewerSwift */,
 				7852D66E1AFAE52A00DE1808 /* Frameworks */,
+				78AF4C4B1C1E103C00FE2893 /* libz.1.dylib */,
 				7852D65F1AFAE50800DE1808 /* StructureViewerSwiftTests */,
 				7852D6481AFAE50800DE1808 /* Products */,
 			);
