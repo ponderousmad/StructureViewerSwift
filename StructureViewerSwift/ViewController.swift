@@ -57,7 +57,7 @@ class ViewController: UIViewController, STSensorControllerDelegate {
                 let toRGBAOptions : [NSObject : AnyObject] = [
                     kSTDepthToRgbaStrategyKey : NSNumber(integer: STDepthToRgbaStrategy.RedToBlueGradient.rawValue)
                 ]
-                toRGBA = STDepthToRgba(options: toRGBAOptions, error: nil)
+                try toRGBA = STDepthToRgba(options: toRGBAOptions)
                 return true
             } catch let error as NSError {
                 print(error)
@@ -94,18 +94,15 @@ class ViewController: UIViewController, STSensorControllerDelegate {
     func sensorDidOutputDepthFrame(depthFrame: STDepthFrame!) {
         if let renderer = toRGBA {
             statusLabel.text = "Showing Depth \(depthFrame.width)x\(depthFrame.height)"
-            var pixels = renderer.convertDepthFrameToRgba(depthFrame)
+            let pixels = renderer.convertDepthFrameToRgba(depthFrame)
             depthView.image = imageFromPixels(pixels, width: Int(renderer.width), height: Int(renderer.height))
         }
     }
     
     func imageFromPixels(pixels : UnsafeMutablePointer<UInt8>, width: Int, height: Int) -> UIImage? {
         let colorSpace = CGColorSpaceCreateDeviceRGB();
-        let info = CGBitmapInfo()
-        var bitmapInfo = CGBitmapInfo.ByteOrder32Big
+        let bitmapInfo = CGBitmapInfo.ByteOrder32Big.union(CGBitmapInfo(rawValue: CGImageAlphaInfo.NoneSkipLast.rawValue))
         
-        bitmapInfo &= ~CGBitmapInfo.AlphaInfoMask
-        bitmapInfo |= CGBitmapInfo(CGImageAlphaInfo.NoneSkipLast.rawValue)
         let provider = CGDataProviderCreateWithCFData(NSData(bytes:pixels, length: width*height*4))
         
         let image = CGImageCreate(
@@ -119,9 +116,9 @@ class ViewController: UIViewController, STSensorControllerDelegate {
             provider,                    //Source of data for bitmap
             nil,                         //decode
             false,                       //pixel interpolation
-            kCGRenderingIntentDefault);  //rendering intent
+            CGColorRenderingIntent.RenderingIntentDefault);     //rendering intent
         
-        return UIImage(CGImage: image)
+        return UIImage(CGImage: image!)
     }
 }
 
