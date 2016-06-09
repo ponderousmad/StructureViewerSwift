@@ -20,7 +20,7 @@ class ViewController: UIViewController, STSensorControllerDelegate {
         
         STSensorController.sharedController().delegate = self
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "appDidBecomeActive", name: UIApplicationDidBecomeActiveNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.appDidBecomeActive), name: UIApplicationDidBecomeActiveNotification, object: nil)
     }
     
     func appDidBecomeActive() {
