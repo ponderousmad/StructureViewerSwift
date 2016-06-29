@@ -50,14 +50,14 @@ class ViewController: UIViewController, STSensorControllerDelegate {
             let options : [NSObject : AnyObject] = [
                 kSTStreamConfigKey: NSNumber(integer: STStreamConfig.Depth640x480.rawValue),
                 kSTFrameSyncConfigKey: NSNumber(integer: STFrameSyncConfig.Off.rawValue),
-                kSTHoleFilterConfigKey: true
+                kSTHoleFilterEnabledKey: true
             ]
             do {
                 try STSensorController.sharedController().startStreamingWithOptions(options as [NSObject : AnyObject])
                 let toRGBAOptions : [NSObject : AnyObject] = [
                     kSTDepthToRgbaStrategyKey : NSNumber(integer: STDepthToRgbaStrategy.RedToBlueGradient.rawValue)
                 ]
-                try toRGBA = STDepthToRgba(options: toRGBAOptions)
+                toRGBA = STDepthToRgba(options: toRGBAOptions)
                 return true
             } catch let error as NSError {
                 print(error)
