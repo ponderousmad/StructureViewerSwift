@@ -18,19 +18,19 @@ class ViewController: UIViewController, STSensorControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        STSensorController.sharedController().delegate = self
+        STSensorController.shared().delegate = self
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.appDidBecomeActive), name: UIApplicationDidBecomeActiveNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ViewController.appDidBecomeActive), name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
     }
     
     func appDidBecomeActive() {
-        if STSensorController.sharedController().isConnected() {
+        if STSensorController.shared().isConnected() {
             tryStartStreaming()
         }
     }
     
-    override func viewWillAppear(animated: Bool) {
-        if tryInitializeSensor() && STSensorController.sharedController().isConnected() {
+    override func viewWillAppear(_ animated: Bool) {
+        if tryInitializeSensor() && STSensorController.shared().isConnected() {
             tryStartStreaming()
         } else {
             statusLabel.text = "Disconnected"
@@ -38,24 +38,25 @@ class ViewController: UIViewController, STSensorControllerDelegate {
     }
     
     func tryInitializeSensor() -> Bool {
-        let result = STSensorController.sharedController().initializeSensorConnection()
-        if result == .AlreadyInitialized || result == .Success {
+        let result = STSensorController.shared().initializeSensorConnection()
+        if result == .alreadyInitialized || result == .success {
             return true
         }
         return false
     }
     
+    @discardableResult
     func tryStartStreaming() -> Bool {
         if tryInitializeSensor() {
-            let options : [NSObject : AnyObject] = [
-                kSTStreamConfigKey: NSNumber(integer: STStreamConfig.Depth640x480.rawValue),
-                kSTFrameSyncConfigKey: NSNumber(integer: STFrameSyncConfig.Off.rawValue),
+            let options : [AnyHashable: Any] = [
+                kSTStreamConfigKey: NSNumber(value: STStreamConfig.depth640x480.rawValue as Int),
+                kSTFrameSyncConfigKey: NSNumber(value: STFrameSyncConfig.off.rawValue as Int),
                 kSTHoleFilterEnabledKey: true
             ]
             do {
-                try STSensorController.sharedController().startStreamingWithOptions(options as [NSObject : AnyObject])
-                let toRGBAOptions : [NSObject : AnyObject] = [
-                    kSTDepthToRgbaStrategyKey : NSNumber(integer: STDepthToRgbaStrategy.RedToBlueGradient.rawValue)
+                try STSensorController.shared().startStreaming(options: options as [AnyHashable: Any])
+                let toRGBAOptions : [AnyHashable: Any] = [
+                    kSTDepthToRgbaStrategyKey : NSNumber(value: STDepthToRgbaStrategy.redToBlueGradient.rawValue as Int)
                 ]
                 toRGBA = STDepthToRgba(options: toRGBAOptions)
                 return true
@@ -79,7 +80,7 @@ class ViewController: UIViewController, STSensorControllerDelegate {
         statusLabel.text = "Disconnected"
     }
     
-    func sensorDidStopStreaming(reason: STSensorControllerDidStopStreamingReason)
+    func sensorDidStopStreaming(_ reason: STSensorControllerDidStopStreamingReason)
     {
         statusLabel.text = "Stopped Streaming"
     }
@@ -91,34 +92,35 @@ class ViewController: UIViewController, STSensorControllerDelegate {
         statusLabel.text = "Low Battery"
     }
     
-    func sensorDidOutputDepthFrame(depthFrame: STDepthFrame!) {
+    func sensorDidOutputDepthFrame(_ depthFrame: STDepthFrame!) {
         if let renderer = toRGBA {
             statusLabel.text = "Showing Depth \(depthFrame.width)x\(depthFrame.height)"
-            let pixels = renderer.convertDepthFrameToRgba(depthFrame)
-            depthView.image = imageFromPixels(pixels, width: Int(renderer.width), height: Int(renderer.height))
+            let pixels = renderer.convertDepthFrame(toRgba: depthFrame)
+            depthView.image = imageFromPixels(pixels!, width: Int(renderer.width), height: Int(renderer.height))
         }
     }
     
-    func imageFromPixels(pixels : UnsafeMutablePointer<UInt8>, width: Int, height: Int) -> UIImage? {
+    func imageFromPixels(_ pixels : UnsafeMutablePointer<UInt8>, width: Int, height: Int) -> UIImage? {
         let colorSpace = CGColorSpaceCreateDeviceRGB();
-        let bitmapInfo = CGBitmapInfo.ByteOrder32Big.union(CGBitmapInfo(rawValue: CGImageAlphaInfo.NoneSkipLast.rawValue))
+        let bitmapInfo = CGBitmapInfo.byteOrder32Big.union(CGBitmapInfo(rawValue: CGImageAlphaInfo.noneSkipLast.rawValue))
         
-        let provider = CGDataProviderCreateWithCFData(NSData(bytes:pixels, length: width*height*4))
+        //Source of data for bitmap
+        let provider = CGDataProvider(data: Data(bytes: UnsafePointer<UInt8>(pixels), count: width*height*4) as CFData)
         
-        let image = CGImageCreate(
-            width,                       //width
-            height,                      //height
-            8,                           //bits per component
-            8 * 4,                       //bits per pixel
-            width * 4,                   //bytes per row
-            colorSpace,                  //Quartz color space
-            bitmapInfo,                  //Bitmap info (alpha channel?, order, etc)
-            provider,                    //Source of data for bitmap
-            nil,                         //decode
-            false,                       //pixel interpolation
-            CGColorRenderingIntent.RenderingIntentDefault);     //rendering intent
+        let image = CGImage(
+            width: width,
+            height: height,
+            bitsPerComponent: 8,
+            bitsPerPixel: 8 * 4,
+            bytesPerRow: width * 4,
+            space: colorSpace,       //Quartz color space
+            bitmapInfo: bitmapInfo,
+            provider: provider!,
+            decode: nil,
+            shouldInterpolate: false,
+            intent: CGColorRenderingIntent.defaultIntent);
         
-        return UIImage(CGImage: image!)
+        return UIImage(cgImage: image!)
     }
 }
 
